@@ -20,8 +20,9 @@ if dein#load_state('~/.vim/dein')
   call dein#add('Shougo/neomru.vim')
 
   call dein#add('scrooloose/nerdtree')
+  call dein#add('jistr/vim-nerdtree-tabs')
 
-  call dein#add('tpope/vim-surround')
+  all dein#add('tpope/vim-surround')
 
   " COLORTHEME
   call dein#add('tomasr/molokai')
@@ -155,5 +156,3 @@ imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : 
 " タブキーで補完候補の選択. スニペット内のジャンプもタブキーでジャンプ
 imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
 
-
-set t_Co=256
