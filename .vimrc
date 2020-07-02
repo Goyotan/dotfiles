@@ -2,14 +2,13 @@ if &compatible
   set nocompatible
 endif
 " Add the dein installation directory into runtimepath
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.vim/dein')
-  " INIT
-  call dein#begin('~/.vim/dein')
-  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
+
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
   call dein#add('Shougo/deoplete.nvim')
-  call dein#add('Shougo/neosnippet.vim')
 
   " GIT
   call dein#add('tpope/vim-fugitive')
@@ -27,12 +26,10 @@ if dein#load_state('~/.vim/dein')
   call dein#add('jistr/vim-nerdtree-tabs')
   call dein#add('tpope/vim-surround')
   call dein#add('jiangmiao/auto-pairs')
+  call dein#add('neoclide/coc.nvim', { 'build': 'release' })
 
   " COLORTHEME
-  call dein#add('tomasr/molokai')
-  call dein#add('morhetz/gruvbox')
   call dein#add('altercation/vim-colors-solarized')
-  call dein#add('freeo/vim-kalisi')
   call dein#add('NLKNguyen/papercolor-theme')
 
   if !has('nvim')
@@ -52,132 +49,70 @@ if dein#load_state('~/.vim/dein')
 endif
 
 filetype plugin indent on
+syntax enable
 
 if dein#check_install()
   call dein#install()
 endif
 
+
 " START
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_delay = 0
+"let g:deoplete#auto_complete_delay = 0
 
+" GENERAL
+set autoread
+set showcmd
+set number
+set cursorline
+set virtualedit=onemore
+set showmatch
+nnoremap j gj
+nnoremap k gk
+set listchars=tab:»-
+
+" COLOR
 set background=dark
 colorscheme PaperColor
 
-" setting
-" "文字コードをUFT-8に設定
-set fenc=utf-8
-
-" " バックアップファイルを作らない
-set nobackup
-
-" " スワップファイルを作らない
-set noswapfile
-
-" " 編集中のファイルが変更されたら自動で読み直す
-set autoread
-
-" " バッファが編集中でもその他のファイルを開けるように
-set hidden
-
-" " 入力中のコマンドをステータスに表示する
-set showcmd
-
-" " 見た目系
-" " 行番号を表示
-set number
-
-" " 現在の行を強調表示
-set cursorline
-
-" " 現在の行を強調表示（縦）
-" set cursorcolumn
-
-" " 行末の1文字先までカーソルを移動できるように
-set virtualedit=onemore
-
-" " インデントはスマートインデント
-" set smartindent
-
-" " ビープ音を可視化
-"set visualbell
-
-" " 括弧入力時の対応する括弧を表示
-set showmatch
-
-" " ステータスラインを常に表示
-set laststatus=2
-
-" " コマンドラインの補完
-set wildmode=list:longest
-
-" 折り返し時に表示行単位での移動できるようにする
-
-nnoremap j gj
-nnoremap k gk
-
-" " シンタックスハイライトの有効化
-syntax enable
-"
-" " Tab系
-" " 不可視文字を可視化(タブが「▸-」と表示される)
-set list listchars=tab:\▸\-
-
-" " 行頭以外のTab文字の表示幅（スペースいくつ分）
+" Indent
 set tabstop=4
-
-" " 行頭でのTab文字の表示幅
 set shiftwidth=4
+set expandtab
+set list
+set listchars=tab:»-
 
-
-"" 検索文字列が小文字の場合は大文字小文字を区別なく検索する
+" SEARCH
 set ignorecase
-
-" " 検索文字列に大文字が含まれている場合は区別して検索する
 set smartcase
-
-" " 検索文字列入力時に順次対象文字列にヒットさせる
 set incsearch
-
-" " 検索時に最後まで行ったら最初に戻る
 set wrapscan
-
-" " 検索語をハイライト表示
 set hlsearch
 
-" " ESC連打でハイライト解除
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
-
-" BackSpace
+" BACKSPACE
 set backspace=indent,eol,start
 
-"" エンターキーで補完候補の確定. スニペットの展開もエンターキーで確定
-imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
-"
-"" タブキーで補完候補の選択. スニペット内のジャンプもタブキーでジャンプ
-"imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
-"
-"
+" FOLD
+set foldlevel=100
 
-" key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" ENCODING
+set encoding=utf-8
+scriptencoding utf-8
+set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932
 
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <expr><TAB>  pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" RELEASE highlight
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" TAB-Down-Up
+inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<Up>" : "\<S-TAB>"
 
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
+" COCVIM
+nmap <silent> <Leader>cd <Plug>(coc-definition)
+nmap <silent> <Leader>cr <Plug>(coc-references)
+nmap <silent> <Leader>cre <Plug>(coc-rename)
 
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/snippets'
-
+" REF
+" https://github.com/reireias/dotfiles/blob/master/.vimrc
+" https://gist.github.com/Fendo181/6f44ebe0a4e08f49f194a837608c4936
+" https://qiita.com/morikooooo/items/9fd41bcd8d1ce9170301
