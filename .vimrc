@@ -27,6 +27,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('tpope/vim-surround')
   call dein#add('jiangmiao/auto-pairs')
   call dein#add('neoclide/coc.nvim', { 'build': 'release' })
+  call dein#add('preservim/nerdtree')
 
   " COLORTHEME
   call dein#add('altercation/vim-colors-solarized')
@@ -78,7 +79,8 @@ colorscheme PaperColor
 " Indent
 set tabstop=4
 set shiftwidth=4
-set expandtab
+"set expandtab
+set noexpandtab
 set list
 set listchars=tab:»-
 
@@ -111,6 +113,11 @@ inoremap <expr><S-TAB>  pumvisible() ? "\<Up>" : "\<S-TAB>"
 nmap <silent> <Leader>cd <Plug>(coc-definition)
 nmap <silent> <Leader>cr <Plug>(coc-references)
 nmap <silent> <Leader>cre <Plug>(coc-rename)
+
+inoremap { {}<Left>
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+inoremap ( ()<ESC>i
+inoremap (<Enter> ()<Left><CR><ESC><S-o>))}}
 
 " REF
 " https://github.com/reireias/dotfiles/blob/master/.vimrc
